@@ -1,0 +1,383 @@
+#define init
+	 // Define Sprites:
+	global.sprPyroIdle = sprite_add_base64("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
+",15,16,16);
+	global.sprPyroWalk = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAAMAAAAAgCAYAAABEmHeFAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAu
+MjHxIGmVAAAEy0lEQVR4Xu2aMc4cRRCFfwJkMiSEESLBKRECGZEhECKBhCPAPRxwAyJyjkHABRxy
+ATgFsdlvqFq9bVf3zPZU76z895Oetqd6Xr9XNW2MEA8TExMTExMTE/344Od/XjmtNDEaOvSS9spw
+HOl9BKJ+oW0viGqjUcvyxmFro7cYRM1jtLf3v0Z7PQ0rZ7LnXDAiQ4TSZ7gvBltor6chOJPnGocM
+IuhPPZ1Dve1xFVkZvv7l/7PefvoZj97ja5R8zvQ5uIfStob6LigMV5EVovUBPJNS9lMHEZzV8h/V
+P3CPNaZkEO9X737z20JqLfKua/nNwMpZ47zv7QPw7OT53z8eLmieaf61P4C38i+9/RK2aO/u9ldv
+PZ+6k+eRM9jyN5BnEV+423tBaa6DqNHe3R1Avf1sak6eRw4fcIZmcG842h99zwXkfdfz2wPRXnhv
+8Tft7gwA/WF3APFR5qI9e9/SH6C/t/5vlUF0h/gDtD3/ADDPff4ivL35CaKt+kPN4DU0CG3dBdHe
+lX+ZQf01BzrEcs5VEF3TH2oG0+3yBqJt+qt3agYR3t78BNFW/WtEg9DWXRDtXflHGajp/CE6xLa+
+GqJb9S+JBqGtuyDaVX9q2fevGsBNnWru+2gQ2roLom36R0SD0NZdEO1d+W/JgAahrbsg2rPvk2c/
+LPzxpxcL2VMG9e4Mkb+TvRbRILR1H0R8lTlEg9DWXRDthT/P0fAr9e4MNf8tRIMwu3+/gOoVEQ3C
+LH/3dH9qwWWP6t0Zov6d7tEiOsTdM6gF4FkMLhjUuwKoN9SP7rWNGboHcGT/QP2PvoC//v7nQvWH
+rQy2TvH32bt/y7eo9/mrOcRULwCMAgT1rgDqz3kv//r7teH7nj5X6ldnOLp/oBm4fNEM8IpySC3N
+3zNAas5yz9e2n+Lv89f+W73v7l/NOYyGyuH7nj5X6leHKP1rw4e14e8ZwtH9A81AX7UZlHs6gxO7
+vIH607f71Jjpr97QPcpvwJyjb7B7/hqAw7RBaspa8xKiewjvf/gxy9UPUPrzu8f/Xvq35c0vICj9
+laW3e2b5qzcsPbwe7RX+sG8GiI66gECHcO3w+UX30bNP+po/4V773zoDdIh7+wdRBveB/q+F/l8B
+nbyPKNO77LekZ/I1OmNfjqj5WpDSnF90ey4gQPvWO++xvMgAa8On5rnQ+Tn8XoN76d+WZ3/3giMv
+IFjz1wxK3keU3TvUuSs9j6/RId41A8Q9F5D3jd0BdABQm4TuH9GHYtqUDPQceUf9j/aPcih5H1Gv
+r0IzKD1DWRfu9i/7d+oMyvlD3ke0u/8ygF9C1tHgndkfXxuG1K5geoZW/375M2YANANszSDTV1Gc
+4+c7Q2R4a+9++aF+i+gb8D6ilP45xP8WUGOeI2Z/fP532BPO58PPn39JbRP2+tvywn8LMy9iJUeJ
+IZffUctAPSJ7GZCz1Ld5B405M9AAhWmEi/2MANEZ1LbSJN3oPAPNosvIAMpzvD+pp3uWiDLYcigC
+H56b3mnZ5KDF9Nvvvl8eqJek/ukXX533l0UCIp9bovRfo8lSZwAiDzDSs0Qtw2hEvloraa/kQA9s
+Gfhebf+x4IgZPKa5H9LrYxrwxMTExMTExMTExMTExMTExBuEh4f/ADVfGghV4/ExAAAAAElFTkSu
+QmCC
+",6,16,16);
+	global.sprPyroHurt = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAAGAAAAAgCAYAAADtwH1UAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAu
+MjHxIGmVAAACWklEQVRoQ+2XMVL1MAyE01HSUXMVahqOAPfgDlT0HIOCC1ByATgFdZhVpMzGJO/Z
+khMPg78ZjRM50v5a+w3zD51Op/NHGVfQrcO4eviaNfn5KEwzXXdDfRY0tUC3BE1VJXfAvYzINXoX
+/dRUcTlBt4T0fSegkcaRHKNvZmLNhesqYkNK4KalQfvV0L6A+5/V1/cYbGYJXBuBhhgvb54Xw+L9
++3VYhH4vNVRbg2L9MGxkKVxfARm2xABIR+W1FyjWRxHVl2PmYfXAPYLMw5cYAOk68j79qTSAmYfV
+A/fwoIOATQMQbILlUINCfXZBtU30mx8AcdKAtUDNVFqFNvpsogfuEaSJAdoHuPX12Qeb6IX7lEL/
++IUBuaAOxSETJjb1sWfBUN6HNgmZD7iXExnk4vrWfQAe+PARp/TtGwSjOd8F0AbhAwDcz8F4d/84
+vn98igmIXFCrEeGXPnIpyFkYlCtHGzQ7AL6BMODp5U1MQKTwnj0D1KEeTUpv4Sl95BDGHvoCmtga
+gXs5kZuH4bYiNQArGxCkjT6b54X7BJh//ltGrBmAuqncB/8KIvqu22+wiaVwvZctExD2R9H+E2SB
+HL5HUWj4JS79MGykB+4RRIa2G8YGrAXfwAjpBfDohy8BG+mBewSZf+p43goMb6G5WrTRZxMZ2VxB
+t2csJ5sO+BYmBmxh+/N3kVvYWl9gI4303UCeWcsF+GUADxce9DwLfdNL1+qYiVgB51LkA0LTtUC/
+rJ41zaBeWfq7HAibuYOxZ+Fhqg7moJk+jAf6+u9offCdTqfT6XSqMAw/zp+mOLBPSQIAAAAASUVO
+RK5CYII=
+",3,16,16);
+	global.sprPyroDead = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAAMAAAAAgCAYAAABEmHeFAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAu
+MjHxIGmVAAAEt0lEQVR4Xu2YPY4UMRCFJ0BCIiFBxKREnIAAiQwJbUJAwk/GIbgDETnHIOAChFwA
+TkE86NXUa732unvssruHWfmTSu0uu6rG1a822MNgMBgMBoPBoIpjBt/ajccf/xxpfLeNHdH6gzuO
+69xw1wzfMtzVFYptTXBbClJz52qc2x9cMamoTeUJvmWk7xuBGqntzWLtMQR3BIoZz1I0rhUREp6T
+8S+umux3E6Dk0fyT/f1+ssQ/uAuomGvQ2BZUfA9ffJ2JHe8UH83PW4zEhpEct+rD9DfQh7MI8PXg
+WlEh16LxUURAJrRLDIBzqz5r62/gGucR1LH+YG9UxBE0RyOT+GAUoIpQzUXXXFfEm63P2vobuEbM
+KXRwtaiII2iOCOcEmAoRRh9iEOjrEBKbrc+6Wp9rxCCwpf7gwqiII2iOCOcEuGaIQaCvW1mtDx8H
+gD7EINDXu9Gj7z3Y+96boM2MoDkiSBNXBZgzxCDQ1yEkNlx/D9Z6vbbXA7+roWtlyf/fo82Lonka
+mAmwFMSdwmPIh1usjz2aIv7NBOB1Zlhxwd3dWbkT/Gp7kNbMWR1snnWxAc1Vg4oPdv/Jq/AANArw
+bH2egSnu6z4AntuwQoXwvAUGydwF7zNjn2DJXu9eWF58mzXzc3Vow1rRfKXoANx8+Hz8+ev3dKFS
+EOtW3fi1+vClwEcj4uuC5zSsQCUe2gu7m4pdDf1T8/M9mb4H7MHT94uGs6eQCtgw61wjmq+UVIBf
+vv0wEcJSdI9rgDjEI4nkK2KtPnwwskX9JSxxEE/Rit0pJ3as+c8ANb97r/pgVfg6GDCcP4VVwqZZ
+9xrQXEHsIhDXkqUCxFMF2Ehz/ZYB0B62oLlqkN8+3TcVP6xkACRXlOPzlzeTuHPi//T6MDPEnEIr
+0aZF0Ty1SLOmC8P4EdRyAkQcgqNN71W/F9bQRpjHEtYz3a92ALyXPfpRPQDwIe4UXok2rRaNj+KN
+A9OlafwIacPhw3kESXyIS9cH2stWLGGM2bDz7rgfLdcLGPeR45QqzPHeo2fXMwBAc0TwxgG7CD8A
+1vwIOdO/wJKjhd3ra9+w7gFzWdIzJL/b7sT78544owafil/PIAcS+boGxk4D8ObtO/sG6QCkQ8Az
+Hh9DGxdBczRizYdhvWT8UCrCFuSD7VJfe4V1TzxtDXYHDj+NQ0Bxq3E4dD/YC4uB4CF82rkBgGFP
+9xHj+eph46yDgm1m8O0J+mwzABroy1SAS3B/Oic5qrlEfWvcBjC3Fcmgd4VBuBQTLB2AUgsMgImW
+tjQApdY0AECbR9J3Ar+S89WSihBPvMBP4zueSs7XQLZ+ulZK67NPeG6FFTrPJPRUSDoA0ocaK+1H
+Vvw6ADCcK7HuA6C+FDsguLsJaRqeqzlViKXiO0dNfaC/oRZv2yYwvxVahneciR/vHIDcEKgPpu9Y
++7lSprwqfrxzMDgE6bv6+fRcbWjjCpq4Kb2EXYPW3Kp+2le898TTLpK5F95nxgFITcVP0eva4yPM
+6sMoerXNBwB4H/skC4APdAnxK3vUz/XYGt8Ac1iyAhbuCV/UevUuzVtig2skItwtuPQfncHASAei
+9tkDHYba9WAwGAwGg8HgwhwO/wAheWRyhVVpMQAAAABJRU5ErkJggg==
+",6,16,16);
+	global.sprPyroFlamethrower = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAABgAAAAMCAYAAAB4MH11AAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAAD2AAAA9gAXp4RY0AAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAu
+MjHxIGmVAAAAw0lEQVQ4T62Syw0CMQxE0wE3+qEDSoA+6IETdwqhAY40wJYCGccTjbNeCaGM9PKx
+1zMRolR9SBWWqVjA7nAzGATGD/+lLR6yPy/GL2FQVh9pS9MqJAkzccZ36+GsdyHIDMH1/tgKCWQ9
+PtLvXVY4ni5mTjTk+XoH0KeR1oZQkxkDGhIN4DcKDHUecBb1YK7QmK/EHWcFs6hjZw2z7Dl5AOAr
+5DUrBjMDoQyuxJ9HGuHsZOq9rX9Rv2iq7zxP0XTDUkr5AmWB3FsS69hBAAAAAElFTkSuQmCC
+",1,8,6);
+	global.mskPyroArea = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAACMAAAAoCAYAAAB0HkOaAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QIXFDEFC9qmUAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAr0lEQVRYw+3Y0RFAMAwG4P7WYAZrmcITS1jHLpbwEg9eerQu1ZI4yatefZI7beKcRTjAWkXkHPalXT0Qd/Np6VEOQ/t7u2ak3K/mwPAGhAuKPkwpRykU3oZcgSABiYEgBQmBKul/Szuv58xIZOWYHUhDfJB4mfxQhYGGEqnMjGEMYxjD/Os4sFP7M2VSddOzCzmniVPTN6nrKNX12k+hbk8hSoPy5jMFYKmTK4tPxAbH5FIiGEZ92AAAAABJRU5ErkJggg==",1,17,20);
+	global.IDPDLaser = sprite_add_base64("iVBORw0KGgoAAAANSUhEUgAAAAIAAAAGCAYAAADpJ08yAAAACXBIWXMAAAsSAAALEgHS3X78AAAAG3RFWHRTb2Z0d2FyZQBDZWxzeXMgU3R1ZGlvIFRvb2zBp+F8AAAAGUlEQVQI12Nk+P//PwMDAwMjnPEfg4GhBgA80xPzn5o4GgAAAABJRU5ErkJggg==",1,2,3)
+
+	 // Idpd
+	global.IDPD = [Grunt, Inspector, Shielder, EliteGrunt, EliteInspector, EliteShielder];
+
+#define pyro_create(_x, _y)
+	with instance_create(_x, _y, CustomEnemy){
+		name = "Pyro";					// Name
+		team = 3;						// Team (IDPD)
+		walk = 0;						// Walk
+		ammo = 0;						// Weapon Shots Left
+		male = choose(0,1);				// Male/Female (Sounds)
+		depth = -2;						// Depth
+		freeze = 0;						// Freeze
+		wepflip = 1;					// Weapon Flip
+		sweepspeed = 6;					// Flamethrower Sweep Speed
+		alarm1 = 0;						// Alarm 1 (Main Stuff)
+		alarm2 = 0;						// Alarm 2 (Attack)
+		maxhealth = 40+GameCont.loops *20;	// Health
+		gunangle = random(360);			// Gun Angle
+		spr_shadow = shd24;				// Shadow Sprite
+		mask_index = mskBandit;			// Hitbox
+		saveVars = ["sweepspeed"];		// Custom Variables This Object Uses
+
+		 // Define Sprites:
+		spr_idle = global.sprPyroIdle;
+		spr_walk = global.sprPyroWalk;
+		spr_hurt = global.sprPyroHurt;
+		spr_dead = global.sprPyroDead;
+
+		 // Sounds:
+		if(male){ // Male
+			sound_play(sndGruntEnterM); // Entrance Sound
+			snd_hurt = sndGruntHurtM;
+			snd_dead = sndGruntDeadM;
+		}
+		else{ // Female
+			sound_play(sndGruntEnterF); // Entrance Sound
+			snd_hurt = sndGruntHurtF;
+			snd_dead = sndGruntDeadF;
+		}
+
+		 // Draw Weapon:
+		on_draw = script_ref_create(draw_pyro);
+
+		motion_add(random(360),4);
+	}
+
+#define step
+	with instances_matching(CustomEnemy, "name", "Pyro"){
+		 // Set Target To Closest Player:
+		if(instance_exists(Player)) target = instance_nearest(x,y,Player);
+		else target = 0;
+
+		 // Set Sprites:
+		if(nexthurt > current_frame){
+			if(sprite_index != spr_hurt) image_index = 0;
+			sprite_index = spr_hurt;
+		}
+		else{
+			if(speed > friction) sprite_index = spr_walk;
+			else sprite_index = spr_idle;
+		}
+
+		 // Movement:
+		if(walk > 0){
+			walk -= 1;
+			motion_add(direction, 0.8);
+		}
+		if(speed > 3.5) speed = 3.5; // Max Speed
+		
+		 // Check If Target Is In Line of Sight:
+		if(instance_exists(target) && collision_line(x, y, target.x, target.y, Wall, 0, 0) < 0) targetvisible = 1;
+		else targetvisible = 0;
+		
+		 // Freeze:
+		if(my_health <= 0){
+			for(i = 0; i < array_length_1d(global.IDPD); i++) with(global.IDPD[i]) freeze += 100;
+			sound_stop(sndDragonLoop);
+		}
+		if(my_health < maxhealth) freeze += 1;
+		with(Player){
+			if(speed > 0) other.freeze += 1;
+			if(can_shoot = 0) other.freeze += 3;
+		}
+		
+		 // Alarm 1 (Main Stuff):
+		if(alarm1 <= 0){
+			alarm1 = 10 + random(10);
+			if(target > 0){
+				if(targetvisible){
+					 // Look Towards Player:
+					if(ammo <= 0) gunangle = point_direction(x,y,target.x,target.y);
+					if(target.x > x) right = 1;
+					if(target.x < x) right = -1;
+			
+					//SEE PLAYER AND FAR ENOUGH AND NOT SHOUTING "FREEZE MOTHERFUCKER"
+					if(random(2) < 1 && freeze > 40){
+						 // Fire Weapon:
+						alarm2 = 1;
+						if(ammo <= 1){
+							sweepspeed *= -1;
+							gunangle = point_direction(x, y, target.x, target.y) + (sweepspeed * 20);
+							sound_play(sndDragonStart);
+							sound_loop(sndDragonLoop);
+							ammo += 15;
+						}
+						alarm1 = random(7);
+					}
+
+					 // Don't Fire:
+					else{
+						 // Blow Up Corpses Near Player:
+						if(random(2) < 1 && freeze > 40) pyro_explo(60);
+
+						 // Walk Around:
+						else if(ammo <= 0){
+							speed = 0.4;
+							walk = 10 + random(10);
+							if(distance_to_object(target) > 48) direction = point_direction(x, y, target.x, target.y) + random_range(-25, 25);
+							else direction = point_direction(x,y,target.x,target.y) + 180 + random_range(-25, 25);
+						}
+					}
+				}
+				else{
+					 // Walk Randomly:
+					if(random(3) < 2){
+						direction = random(360);
+						walk = 25+random(10);
+					
+						 // Look Towards Direction:
+						gunangle = direction;
+						if(hspeed > 0) right = 1
+						if(hspeed < 0) right = -1;
+					}
+
+					 // Blow Up Corpses Near Player:
+					else if(freeze > 40) pyro_explo(100);
+				}
+			}
+		}
+		else alarm1 -= 1;
+		
+		 // Alarm 2 ("Fire" Weapon):
+		if(alarm2 <= 0){
+			if(ammo > 0){
+				ammo -= 2;
+				alarm2 = 1;
+				gunangle -= sweepspeed;
+
+				 // Throw Flames:
+				if instance_exists(self){
+					var dist = 4;
+					var ang = random_range(-15,15)
+					if instance_exists(self)
+					if instance_exists(creator){
+						while(place_free(x+lengthdir_x(dist, aim+ang), y+lengthdir_y(dist, aim+ang))){
+							dist += 4;
+							}
+							with instance_create(x+lengthdir_x(dist, aim+ang), y+lengthdir_y(dist, aim+ang), Laser){
+								sound_play_pitch(sndLaserCannon,0.3)
+								sprite_index = global.IDPDLaser
+								damage = 1
+								creator = other
+								team = 3
+								depth = other.depth
+								image_angle = point_direction(x,y,other.x,other.y)
+								image_xscale = - .5* distance_to_object(other) - 5
+								image_yscale = 1.5
+								force = 0
+							}
+						}
+					}
+				 // Stop Sound:
+				if(ammo = 0){
+					sound_stop(sndDragonLoop);
+					sound_play(sndDragonStop);
+				}
+			}
+		}
+		else alarm2 -= 1;
+	}
+
+	 // Pyro Explosion:
+	with instances_matching(CustomObject, "name", "PyroExplo"){
+		if("pyroexplotimer" not in self){
+			pyroexplotimer = 50;
+			sprite_index = sprPopoReviveArea;
+			mask_index = global.mskPyroArea;
+			sound_play(sndPortalStrikeLoop);
+			saveVars = ["pyroexplotimer"];
+		}
+		if(pyroexplotimer <= 0){
+			sound_play(sndIDPDNadeExplo);
+			with(Corpse) if place_meeting(x,y,other){
+				if(GameCont.area = 101) sound_play(sndOasisExplosion);
+				else sound_play(sndExplosion);
+				repeat(7) {
+					with instance_create(x,y,Flame){
+						sprite_index = sprFireLilHunter;
+						motion_add(random(360), 4);
+						image_angle = random(360);
+					}
+				}
+				instance_destroy();
+			}
+			instance_destroy();
+		}
+		else{
+			pyroexplotimer -= 1;
+			with instance_create(x + lengthdir_x(13,random(360)), y + lengthdir_y(13,random(360)), IDPDPortalCharge){
+				name = "PyroExploParticle";
+				depth = other.depth - 1;
+				rotplace = random(360);
+				rotlength = 15;
+				rotspeed = 5 + random_range(-0.5,0.5);
+				saveVars = ["rotplace", "rotlength", "rotspeed"];
+				creator = other;
+			}
+		}
+	}
+
+	 // Pyro Explo Area Particles:
+	with instances_matching(IDPDPortalCharge, "name", "PyroExploParticle"){
+		image_alpha -= 0.02;
+		if instance_exists(creator){
+			x = creator.x + lengthdir_x(rotlength,rotplace);
+			y = creator.y + lengthdir_y(rotlength,rotplace);
+			rotplace += rotspeed;
+			if(creator.pyroexplotimer > 2) vspeed -= 0.5;
+			else if(vspeed < 0) vspeed -= vspeed / 1.5;
+		}
+		if(image_alpha <= 0 || !instance_exists(creator)) instance_destroy();
+	}
+
+	 // Spawning Pyro:
+	with instances_matching(ProtoStatue, "potentialpyro", null){
+		potentialpyro = 1;
+		if(GameCont.area = 5 && random(10) < (1 + GameCont.loops)) pyro_create(x,y);
+	}
+	if(GameCont.loops = 1 && GameCont.area > 2 || GameCont.loops > 1){
+		with(IDPDSpawn) if(!elite && !freak && random(5) < 1 && alarm1 = 1){
+			alarm1 = 1000;
+			instance_create(x,y,PortalClear);
+			pyro_create(x,y);
+		}
+	}
+
+#define pyro_explo(_targetdist)
+	with(Corpse) if(random(4) < 1 && distance_to_object(other.target) < _targetdist && distance_to_object(other) < 300 && speed = 0 && distance_to_object(CustomObject) > 15){
+		with(other){
+			 // Sound:
+			if(male) sound_play_pitch(sndRogueAim,0.9);
+			else sound_play_pitch(sndRogueAim,1.1);
+
+			 // Corpse Explo Area:
+			with instance_create(other.x, other.y, CustomObject){
+				name = "PyroExplo";
+				creator = other;
+			}
+		}
+	}
+
+ // Draw Weapon:
+#define draw_pyro
+	 // Weapon Kick:
+	if(ammo > 0 && alarm2 <= 1) wkick = 1.5;
+	else wkick = 0;
+
+	 // Weapon Flip:
+	if(gunangle > 90 && gunangle < 270) wepflip = -1;
+	else wepflip = 1;
+
+	 // Weapon:
+	if(gunangle > 180) draw_sprite_ext(sprite_index, image_index, x, y, image_xscale * right, image_yscale, image_angle, image_blend, image_alpha);
+	draw_sprite_ext(global.sprPyroFlamethrower, 0, x - lengthdir_x(wkick,gunangle), y - lengthdir_y(wkick,gunangle), 1, wepflip, gunangle, image_blend, image_alpha);
+	if(gunangle <= 180) draw_sprite_ext(sprite_index, image_index, x, y, image_xscale * right, image_yscale, image_angle, image_blend, image_alpha);

@@ -1,0 +1,341 @@
+#define init
+ // Define Sprites:
+global.sprCommanderIdle         = sprite_add("IDPD Commander Idle.png",15,16,16);
+global.sprCommanderWalk         = sprite_add("IDPD Commander Walk.png",6, 16,16);
+global.sprCommanderHurt         = sprite_add("IDPD Commander Hurt.png",3, 16,16);
+global.sprCommanderDead         = sprite_add("IDPD Commander Dead.png",6, 16,16);
+global.sprCommanderFlamethrower = sprite_add("IDPD Commander Gun.png ",1, 12,6 );
+
+ // Idpd
+global.IDPD = [Grunt, Inspector, Shielder, EliteGrunt, EliteInspector, EliteShielder];
+
+#define commander_create(_x, _y)
+	with instance_create(_x, _y, CustomEnemy){
+		name = "Commander";				// Name
+		team = 3;						// Team (IDPD)
+		walk = 0;						// Walk
+		ammo = 0;						// Weapon Shots Left
+		male = choose(0,1);				// Male/Female (Sounds)
+		depth = -2;						// Depth
+		freeze = 0;						// Freeze
+		wepflip = 1;					// Weapon Flip
+		alarm1 = 0;						// Alarm 1 (Main Stuff)
+		alarm2 = 0;						// Alarm 2 (Attack)
+		maxhealth = 100;				// Health
+		gunangle = random(360);			// Gun Angle
+		var random_ang;					// Random Angle
+		flamespark_ang = random(360);	// Flame Spark Angle
+		flamespark_timer = -9999999;	// Flame Spark Timer
+		explo_timer = -1;				// Explo Timer
+		spr_shadow = shd24;				// Shadow Sprite
+		mask_index = mskBandit;			// Hitbox
+
+		 // Define Sprites:
+		spr_idle = global.sprCommanderIdle;
+		spr_walk = global.sprCommanderWalk;
+		spr_hurt = global.sprCommanderHurt;
+		spr_dead = global.sprCommanderDead;
+
+		 // Sounds:
+		if(male){ // Male
+			sound_play(sndGruntEnterM); // Entrance Sound
+			snd_hurt = sndGruntHurtM;
+			snd_dead = sndGruntDeadM;
+		}
+		else{ // Female
+			sound_play(sndGruntEnterF); // Entrance Sound
+			snd_hurt = sndGruntHurtF;
+			snd_dead = sndGruntDeadF;
+		}
+
+		 // Draw Weapon:
+		on_draw = script_ref_create(draw_commander);
+
+		motion_add(random(360),4);
+	}
+
+#define step
+with instances_matching(CustomEnemy, "name", "Commander"){
+	 // Set Target To Closest Player:
+	if(instance_exists(Player)) target = instance_nearest(x,y,Player);
+	else target = 0;
+	
+	if (instance_exists(self)) {
+		with (IDPDSpawn) {
+			create_commander = 1
+		}
+	}
+	
+	if(distance_to_object(target) < 350) targetinrange = 1
+	else targetinrange = 0
+	
+	// Set Sprites:
+	if(nexthurt > current_frame){
+	if(sprite_index != spr_hurt) image_index = 0;
+	sprite_index = spr_hurt;
+	}
+	else{
+		if(speed > friction) sprite_index = spr_walk;
+		else sprite_index = spr_idle;
+	}
+
+	// Movement:	
+	if(walk > 0){
+		walk -= 1;
+		motion_add(direction, 0.8);
+	}
+	if(speed > 4) speed = 4; // Max Speed
+	
+	 // Check If Target Is In Line of Sight:
+	if(instance_exists(target) && collision_line(x, y, target.x, target.y, Wall, 0, 0) < 0) targetvisible = 1;
+	else targetvisible = 0;
+		
+	 // Freeze:
+	if(my_health <= 0){
+		for(i = 0; i < array_length_1d(global.IDPD); i++) with(global.IDPD[i]) freeze += 100;
+		sound_stop(sndDragonLoop);
+	}
+	if(my_health < maxhealth) freeze += 2;
+	with(Player){
+		if(speed > 0) other.freeze += 2;
+		if(can_shoot = 0) other.freeze += 5;
+	}
+		
+	 // Alarm 1 (Main Stuff):
+	if(alarm1 <= 0){
+		alarm1 = 8 + random(8);
+		if(target > 0){
+			if(targetvisible){
+				 // Look Towards Player:
+				if(ammo <= 0) gunangle = point_direction(x,y,target.x,target.y);
+				if(target.x > x) right = 1;
+				if(target.x < x) right = -1;
+			
+				//SEE PLAYER AND FAR ENOUGH AND NOT SHOUTING "FREEZE MOTHERFUCKER"
+				if(random(2) < 1 && freeze > 30){
+					 // Fire Weapon:
+					alarm2 = 1;
+					if(ammo <= 1){
+						gunangle = point_direction(x, y, target.x, target.y);
+						sound_play(sndDragonStart);
+						sound_loop(sndDragonLoop);
+						ammo += 20;
+					}
+					alarm1 = random(5);
+				}
+
+				 // Don't Fire:
+				else{
+					 // Summon:
+
+					if(random(20) < 1 && freeze > 30) {
+						create_idpd(1)
+					}
+					 
+					 // Walk Around:
+					if(ammo <= 0){
+						speed = 0.5;
+						walk = 12 + random(12);
+						if(distance_to_object(target) > 40) direction = point_direction(x, y, target.x, target.y) + random_range(-25, 25);
+						else direction = point_direction(x,y,target.x,target.y) + 180 + random_range(-25, 25);
+					}
+				}
+			}
+			else{
+				 // Walk Randomly:
+				if(random(2) < 1){
+					direction = random(360);
+					walk = 30+random(15);
+					
+					 // Look Towards Direction:
+					gunangle = direction;
+					if(hspeed > 0) right = 1
+					if(hspeed < 0) right = -1;
+				}
+
+				 // Blow Up Corpses Near Player:
+				else if(random(6) < 1 && freeze > 30) create_idpd(2)
+			}
+		}
+	}
+	else alarm1 -= 1;
+		
+	 // Alarm 2 ("Fire" Weapon):
+	if(targetinrange = 1) {
+		if(alarm2 <= 0){
+			if(ammo > 0){
+				ammo -= 1;
+				alarm2 = 1;
+				flamespark_timer = 0;
+				explo_timer = 0;
+
+				 // Throw Flames:
+				if (random(2)<1) {
+					repeat(6 + random(6)) {
+						with instance_create(x + lengthdir_x(15,gunangle), y + lengthdir_y(15,gunangle), Flame){
+							motion_add(other.gunangle + random_range(-30, 30), 5 + random(6));
+							image_angle = random(360);
+							team = other.team;
+							creator = other;
+						}
+					}
+				}
+				else {
+					if (random(4) < 1) {
+						var random_ang = random(75) - 37.5;
+						if (random(3)<1) {
+							for (var l = 4; l <= 8; l += 0.8) {
+								for (var m = -4; m <= 4; m += 8/3) {
+									with instance_create(x + lengthdir_x(15,gunangle), y + lengthdir_y(15,gunangle), Bullet1) {
+										image_blend = c_orange
+										motion_add(other.gunangle + random_ang + m, l);
+										image_angle = direction;
+										team = other.team;
+										creator = other;
+										image_speed = 1;
+										if image_index >= 1{
+											image_speed = 0
+										}
+									}
+								}
+							}
+						}
+						if (random(8)<1) {
+							for (var n = -30; n <= 30; n += 10) {
+								with instance_create(x + lengthdir_x(15,gunangle), y + lengthdir_y(15,gunangle),LHBouncer) {
+									image_blend = c_orange;
+									motion_add(other.gunangle + n, 5.1);
+									image_angle = direction;
+									team = other.team;
+									creator = other;
+									image_speed = 1;
+									if (image_index >= 1) {
+										image_speed = 0;
+									}
+								}
+							}
+						}
+					}
+				}
+				if(random(40) < 1) {
+					create_idpd(3)
+				}
+
+				 // Stop Sound:
+				if(ammo = 0){
+					sound_stop(sndDragonLoop);
+					sound_play(sndDragonStop);
+				}
+			}
+			if (targetvisible = 0) {
+				if (flamespark_timer > 1) {
+					repeat(2+irandom(8)) {
+						var flamespark_ang = random(360);
+						with instance_create(x,y,Flame){
+							motion_add(flamespark_ang, random(8)+2);
+							image_angle = random(360);
+							team = other.team;
+							creator = other;
+						}
+						if (random(3)<1) {
+							with instance_create(x,y,EnemyLightning){
+								image_angle = random(360)
+								creator = other;
+								team = other.team
+								ammo = 5
+								alarm0 = 1
+								visible = 0
+								with instance_create(x,y,LightningSpawn)
+								{
+									image_angle = other.image_angle
+								}
+								sound_play(sndLightningPistol)
+							}
+						}
+						if (random(40) < 1) {
+							create_idpd(3)
+						}
+					}
+					speed = 2
+					gunangle = point_direction(x,y,target.x,target.y);
+					direction = gunangle
+					flamespark_timer = 0
+					explo_timer += 1
+				}
+				else flamespark_timer += 1
+				if (explo_timer > 15) {
+					with instance_create(x, y, PortalClear) {
+						image_xscale = 5
+						image_yscale = 5
+					}
+					for (var o = 30 + random(40); o < 720; o += 30 + random(40)) {
+						with instance_create(x,y,EnemyLightning){
+							image_angle = o
+							creator = other;
+							team = other.team
+							ammo = 15
+							alarm0 = 1
+							visible = 0
+							with instance_create(x,y,LightningSpawn)
+							{
+								image_angle = other.image_angle
+							}
+							sound_play(sndLightningPistol)
+						}
+					}
+					flamespark_timer = -8
+					explo_timer = 0
+				}
+			}
+		}
+		else alarm2 -= 1;
+	}
+	else {
+		direction = point_direction(x,y,target.x,target.y) + random(50) - 25;
+	}
+}
+
+// Spawning commander:
+with instances_matching(ProtoStatue, "potentialcommander", null){
+	potentialcommander = 1;
+	if(GameCont.area = 5 && random(10) < (1 + GameCont.loops)) commander_create(x,y);
+}
+if(GameCont.loops = 1 && GameCont.area > 4 || GameCont.loops > 1){
+	with(IDPDSpawn) if(!elite && !freak && random(10) < 1 && alarm1 = 1 && "create_commander" not in self){
+		alarm1 = 1000;
+		instance_create(x,y,PortalClear);
+		commander_create(x,y);
+		create_commander = 1
+	}
+}
+#define create_idpd(_t)
+if(random(4) < 1) {
+	if(_t = 1 || _t = 3) {
+		repeat(1+GameCont.loops+irandom(GameCont.loops)) {
+			with instance_create(x,y,IDPDSpawn) {
+				create_commander = 1
+			}
+		}
+	}
+}
+if(random(4) < 1) {
+	if(_t = 2 || _t = 3) {
+		if (random(3)<1) {
+			instance_create(x,y,VanSpawn)	
+		}
+	}
+}
+ // Draw Weapon:
+#define draw_commander
+// Weapon Kick:
+if(ammo > 0 && alarm2 <= 1) wkick = 1.5;
+else wkick = 0;
+
+// Weapon Flip:
+if(gunangle > 90 && gunangle < 270) wepflip = -1;
+else wepflip = 1;
+
+// Weapon:
+if(gunangle > 180) draw_sprite_ext(sprite_index, image_index, x, y, image_xscale * right, image_yscale, image_angle, image_blend, image_alpha);
+if(gunangle <= 180) draw_sprite_ext(sprite_index, image_index, x, y, image_xscale * right, image_yscale, image_angle, image_blend, image_alpha);
+draw_sprite_ext(global.sprCommanderFlamethrower, 0, x - lengthdir_x(wkick,gunangle), y - lengthdir_y(wkick,gunangle), 1, wepflip, gunangle, image_blend, image_alpha);

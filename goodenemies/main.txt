@@ -1,0 +1,5 @@
+//IDPD
+//loadmod Pyro.mod.gml
+//loadmod IDPD Commander.mod.gml
+//loadmod Officer.mod.gml
+//loadmod IDPD Militia
